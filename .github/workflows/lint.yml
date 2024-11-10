@@ -2,9 +2,9 @@ name: Lint with pylint
 
 on:
   push:
-    branches: [ "feature/coding_assignment" ]
+    branches: [ "feature/case_study" ]
   pull_request:
-    branches: [ "feature/coding_assignment" ]
+    branches: [ "feature/case_study" ]
 
 jobs:
   lint:
