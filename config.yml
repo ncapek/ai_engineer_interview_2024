@@ -1,0 +1,12 @@
+data:
+  train_path: "./data/train.jsonl"
+  dev_path: "./data/dev.jsonl"
+  test_path: "./data/test.jsonl"
+  output_dir: "./output"
+model:
+  pretrained_name: "distilbert-base-uncased"
+  cache_dir: "./models"
+training:
+  batch_size: 16
+  epochs: 3
+  learning_rate: 2e-5
