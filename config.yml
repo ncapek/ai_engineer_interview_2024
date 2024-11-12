@@ -1,12 +1,31 @@
-data:
-  train_path: "./data/train.jsonl"
-  dev_path: "./data/dev.jsonl"
-  test_path: "./data/test.jsonl"
-  output_dir: "./output"
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+datasets:
+  encoding: "utf-8"
+  lines: true
+  required_columns:
+    - headline
+    - short_description
+    - category
+  target_column: "category"
+
 model:
-  pretrained_name: "distilbert-base-uncased"
-  cache_dir: "./models"
-training:
-  batch_size: 16
-  epochs: 3
-  learning_rate: 2e-5
+  random_seed: 42  # Random seed for reproducibility
+  save_path: "models/best_model.pkl"  # Path where the best model will be saved
+  n_jobs: -1  # Use all available processors
+  scoring: "f1_weighted"  # Scoring metric to use (can be 'accuracy', 'f1_weighted', etc.)
+  verbose: 2  # Verbosity level for GridSearchCV
+
+hyperparameters:
+  LogisticRegression:
+    C: [0.01, 0.1, 1.0, 10.0, 100.0]  # Expanded regularization strengths for LogisticRegression
+    solver: ['liblinear', 'saga', 'newton-cg']  # Additional solver
+    max_iter: [500, 1000, 2000]  # Different maximum iterations
+    random_seed: 42
+
+  TfidfVectorizer:
+    max_df: [0.75, 0.85, 0.90]  # Broader range for max_df
+    min_df: [3, 5, 10]  # More options for min_df
+    stop_words: ['english', None]  # Allow None as an option for stop_words
