@@ -20,9 +20,9 @@ model:
 
 hyperparameters:
   LogisticRegression:
-    C: [0.01, 0.1, 1.0, 10.0, 100.0]  # Expanded regularization strengths for LogisticRegression
+    C: [0.1, 1.0, 10.0, 100.0]  # Expanded regularization strengths for LogisticRegression
     solver: ['liblinear', 'saga', 'newton-cg']  # Additional solver
-    max_iter: [500, 1000, 2000]  # Different maximum iterations
+    max_iter: [500, 1000]  # Different maximum iterations
     random_seed: 42
 
   TfidfVectorizer:
