@@ -15,8 +15,6 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import make_scorer, f1_score, accuracy_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
-from sklearn.ensemble import RandomForestClassifier
-
 
 from config import load_config
 from utils import setup_logger
