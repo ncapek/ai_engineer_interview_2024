@@ -30,4 +30,6 @@ hyperparameters:
     min_df: [3, 5, 10]  # More options for min_df
     stop_words: ['english']  # Allow None as an option for stop_words
 
-evaluation:
+output:
+  eval_results_path: "results/eval_results.json"  # Path to save the evaluation results
+  classify_results_path: "results/classify_output.jsonl"
