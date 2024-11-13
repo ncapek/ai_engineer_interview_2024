@@ -11,14 +11,6 @@ import logging
 def setup_logger(name: str, log_file: str = 'app.log', level=logging.DEBUG):
     """
     Set up a logger that writes log messages to both a file and the console.
-
-    Args:
-        name (str): The name of the logger.
-        log_file (str): The log file to write to. Default is 'app.log'.
-        level (int): The logging level (e.g., logging.DEBUG, logging.INFO).
-
-    Returns:
-        logger (logging.Logger): Configured logger object.
     """
     logger = logging.getLogger(name)
     logger.setLevel(level)

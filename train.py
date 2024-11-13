@@ -4,8 +4,8 @@ and performs grid search for hyperparameter tuning.
 """
 
 import argparse
-import os
 from logging import Logger
+from pathlib import Path
 from typing import Optional, Dict, Any
 
 import joblib
@@ -49,7 +49,7 @@ def prepare_dataset(input_df: pd.DataFrame, config_params: dict, logger: Logger)
     return input_df
 
 
-def load_dataset(file_path: str, config_dict: Dict[str, Any], logger: Logger)\
+def load_dataset(file_path: str, config_dict: Dict[str, Any], logger: Logger) \
         -> Optional[pd.DataFrame]:
     """
     Loads a JSON lines dataset from the specified file path with error handling and logging.
@@ -128,6 +128,7 @@ def create_param_grid(vectorizer_params, classifier_params):
         'classifier__max_iter': classifier_params['max_iter']
     }
 
+
 # pylint: disable=too-many-locals
 def train_model(train_data_df: pd.DataFrame, dev_data_df: pd.DataFrame, config_params: dict,
                 logger: Logger):
@@ -174,7 +175,7 @@ def train_model(train_data_df: pd.DataFrame, dev_data_df: pd.DataFrame, config_p
 
     # Save the best model
     save_path = config_values['model_params']['save_path']
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)  # Create directory if it doesn't exist
+    Path(save_path).parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(best_model, save_path)
     logger.info("Model saved to %s", save_path)
 
