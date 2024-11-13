@@ -128,7 +128,7 @@ def create_param_grid(vectorizer_params, classifier_params):
         'classifier__max_iter': classifier_params['max_iter']
     }
 
-
+# pylint: disable=too-many-locals
 def train_model(train_data_df: pd.DataFrame, dev_data_df: pd.DataFrame, config_params: dict,
                 logger: Logger):
     """Train model with grid search."""
