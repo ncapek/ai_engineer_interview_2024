@@ -5,6 +5,7 @@ and performs grid search for hyperparameter tuning.
 
 import argparse
 import os
+from logging import Logger
 from typing import Optional, Dict, Any
 
 import joblib
@@ -20,46 +21,39 @@ from config import load_config
 from utils import setup_logger
 
 # Set up logging
-logger = setup_logger('train_logger')
+train_logger = setup_logger('train_logger')
 
 
-def prepare_dataset(input_df: pd.DataFrame, config_params: dict) -> pd.DataFrame:
+def prepare_dataset(input_df: pd.DataFrame, config_params: dict, logger: Logger) -> pd.DataFrame:
     """
     Prepares the dataset for text classification by combining 'headline' and 'short_description'
     into a single 'text' column and selecting only 'text' and the target column.
     """
-
-    # Extract required columns and target column from config
     required_columns = config_params['datasets'].get('required_columns', [])
     target_column = config_params['datasets'].get('target_column', 'category')
 
-    # Verify required columns are present
     missing_columns = [col for col in required_columns if col not in input_df.columns]
     if missing_columns:
         logger.error("Missing columns in DataFrame: %s", missing_columns)
         raise ValueError(f"The following required columns are missing: {missing_columns}")
 
-    # Fill missing values in 'headline' and 'short_description' with empty strings
     input_df['headline'] = input_df['headline'].fillna('')
     input_df['short_description'] = input_df['short_description'].fillna('')
 
-    # Combine 'headline' and 'short_description' into a single 'text' column
     input_df['text'] = input_df['headline'] + " " + input_df['short_description']
     logger.info("Combined 'headline' and 'short_description' into 'text' column.")
 
-    # Select only 'text' and target columns
     input_df = input_df[['text', target_column]]
     logger.info("Selected 'text' and '%s' columns. Dataset preparation complete.", target_column)
 
     return input_df
 
 
-def load_dataset(file_path: str, config_dict: Dict[str, Any]) -> Optional[pd.DataFrame]:
+def load_dataset(file_path: str, config_dict: Dict[str, Any], logger: Logger)\
+        -> Optional[pd.DataFrame]:
     """
     Loads a JSON lines dataset from the specified file path with error handling and logging.
     """
-
-    # Extract encoding and lines format from config_dict
     encoding = config_dict['datasets'].get('encoding', 'utf-8')
     lines = config_dict['datasets'].get('lines', True)
 
@@ -77,7 +71,6 @@ def load_dataset(file_path: str, config_dict: Dict[str, Any]) -> Optional[pd.Dat
     except FileNotFoundError:
         logger.error("File not found: %s", file_path)
 
-    # If loading fails, return None
     return None
 
 
@@ -136,7 +129,8 @@ def create_param_grid(vectorizer_params, classifier_params):
     }
 
 
-def train_model(train_data_df: pd.DataFrame, dev_data_df: pd.DataFrame, config_params: dict):
+def train_model(train_data_df: pd.DataFrame, dev_data_df: pd.DataFrame, config_params: dict,
+                logger: Logger):
     """Train model with grid search."""
 
     logger.info("Starting model training with hyperparameter tuning...")
@@ -206,11 +200,11 @@ if __name__ == "__main__":
     args = parse_args()
 
     # Load datasets
-    train_data = load_dataset(args.train, config)
-    dev_data = load_dataset(args.dev, config)
+    train_data = load_dataset(args.train, config, train_logger)
+    dev_data = load_dataset(args.dev, config, train_logger)
 
     # Apply the function to train and dev datasets
-    train_data = prepare_dataset(train_data, config)
-    dev_data = prepare_dataset(dev_data, config)
+    train_data = prepare_dataset(train_data, config, train_logger)
+    dev_data = prepare_dataset(dev_data, config, train_logger)
 
-    _, _ = train_model(train_data, dev_data, config)
+    _, _ = train_model(train_data, dev_data, config, train_logger)
