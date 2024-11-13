@@ -28,4 +28,6 @@ hyperparameters:
   TfidfVectorizer:
     max_df: [0.75, 0.85, 0.90]  # Broader range for max_df
     min_df: [3, 5, 10]  # More options for min_df
-    stop_words: ['english', None]  # Allow None as an option for stop_words
+    stop_words: ['english']  # Allow None as an option for stop_words
+
+evaluation:
