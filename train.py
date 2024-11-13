@@ -188,7 +188,6 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Load train and validation datasets for training.")
     parser.add_argument('--train', type=str, required=True, help="Path to the training dataset.")
     parser.add_argument('--dev', type=str, required=True, help="Path to the development dataset.")
-    parser.add_argument('--test', type=str, required=True, help="Path to the testing dataset.")
     return parser.parse_args()
 
 
