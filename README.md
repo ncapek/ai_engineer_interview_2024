@@ -50,13 +50,13 @@ Key Highlights:
 ## Instructions
 
 ### Install Dependencies
-1. Get the repo: `git clone https://github.com/ncapek/ai_engineer_interview_2024/tree/main`
+1. Get the repo: `git clone https://github.com/ncapek/ai_engineer_interview_2024.git`
 2. Switch to branch: `git switch feature/case_study`
 3. Create virtual environment: `python -m venv venv`
 4. Activate virtual environment (windows machine): `venv\Scripts\activate`
 5. Install dependencies: `pip install -r requirements.txt`
 6. Move datasets into a data directory in the repo
-7. Run train script: `python train.py --train data/train.jsonl --dev data/dev.jsonl      `
+7. Run train script: `python train.py --train data/train.jsonl --dev data/dev.jsonl`
 8. Run eval script: `python eval.py --model models/best_model.pkl --eval_data data/test.jsonl`
 9. Run classify script: `python classify.py --model models/best_model.pkl --input_data data/test.jsonl`
 
