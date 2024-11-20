@@ -1,0 +1,35 @@
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+datasets:
+  encoding: "utf-8"
+  lines: true
+  required_columns:
+    - headline
+    - short_description
+    - category
+  target_column: "category"
+
+model:
+  random_seed: 42  # Random seed for reproducibility
+  save_path: "models/best_model.pkl"  # Path where the best model will be saved
+  n_jobs: -1  # Use all available processors
+  scoring: "f1_weighted"  # Scoring metric to use (can be 'accuracy', 'f1_weighted', etc.)
+  verbose: 2  # Verbosity level for GridSearchCV
+
+hyperparameters:
+  LogisticRegression:
+    C: [0.1, 1.0, 10.0, 100.0]  # Expanded regularization strengths for LogisticRegression
+    solver: ['liblinear', 'saga', 'newton-cg']  # Additional solver
+    max_iter: [500, 1000]  # Different maximum iterations
+    random_seed: 42
+
+  TfidfVectorizer:
+    max_df: [0.75, 0.85, 0.90]  # Broader range for max_df
+    min_df: [3, 5, 10]  # More options for min_df
+    stop_words: ['english']  # Allow None as an option for stop_words
+
+output:
+  eval_results_path: "results/eval_results.json"  # Path to save the evaluation results
+  classify_results_path: "results/classify_output.jsonl"
